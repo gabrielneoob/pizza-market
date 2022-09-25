@@ -1,31 +1,41 @@
-// async function puxarData() {
-//   try {
-//     const response = await fetch('../pizza.json');
-//     const data = await response.json();
-//     const pizzas = await data.map((pizza) => pizza.name)
-//     console.log(data);
-//     console.log(pizzas);
-//   }
-//   catch (e) {
-//     console.log(e);
-//   }
-// };
+const e = (e) => document.querySelector(e);
+const el = (el) => document.querySelectorAll(el);
+
+async function puxarData() {
+  try {
+    // puxar dadaos de pizza.json
+    const response = await fetch('../pizza.json');
+    const data = await response.json();
+
+    //colocar dados
+    data.map((item, i) => {
+      let pizzaItem = e('.models .pizza-item').cloneNode(true);
+      // puxar dados do json e por
+      pizzaItem.querySelector('.pizza-item--img img').setAttribute('src', item.img);
+      pizzaItem.querySelector('.pizza-item--name').innerHTML = item.name;
+      pizzaItem.querySelector('.pizza-item--price').innerHTML = `R$ ${item.price.toString().replace('.', ',')}`;
+      pizzaItem.querySelector('.pizza-item--desc').innerHTML = item.description;
 
 
-const pizzajson = fetch('../pizza.json');
-let pizzas = pizzajson
-  .then((response) => response.json())
-  .then((dataJson) => pizzas = dataJson)
-  .catch((e) => console.log(e));
+
+      e('.pizza-area').appendChild(pizzaItem);
+    })
+  }
+  catch (e) {
+    console.log(e);
+  }
+};
+
+puxarData();
 
 
-function mostrarTempo() {
-  const hora = new Date();
-  const horas = hora.getHours();
-  const minutes = hora.getMinutes();
-  const seconds = hora.getSeconds();
-  document.body.innerHTML = `${horas}:${minutes}:${seconds}`;
-  console.log(`${horas}:${minutes}:${seconds}`);
-}
+// const pizzajson = fetch('../pizza.json');
+// let pizzas;
+// pizzajson
+//   .then((response) => response.json())
+//   .then((dataJson) => pizzas = dataJson)
+//   .catch((e) => console.log(e));
 
-setInterval((mostrarTempo), 1000);
+
+
+// console.log(pizzas)
