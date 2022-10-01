@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "name": "Mussarela",
+    "name": "Bacon",
     "img": "./images/pizza.png",
     "price": 20.19,
     "sizes": [
