@@ -9,6 +9,8 @@ async function puxarData() {
 
     //colocar dados
     data.map((item, i) => {
+      let pizzaQt = 1;
+
       let pizzaItem = c('.models .pizza-item').cloneNode(true);
       // puxar dados do json e por
       pizzaItem.querySelector('.pizza-item--img img').setAttribute('src', item.img);
@@ -19,6 +21,7 @@ async function puxarData() {
       pizzaItem.querySelector('a').addEventListener('click', (e) => {
         e.preventDefault();
         const pizzaWindow = c('.pizzaWindowArea');
+        let pizzaPrice = item.price;
         pizzaWindow.style.opacity = 0;
         pizzaWindow.style.display = 'flex';
         setTimeout(() => {
@@ -27,15 +30,42 @@ async function puxarData() {
         pizzaWindow.querySelector('.pizzaBig img').src = item.img;
         pizzaWindow.querySelector('.pizzaInfo h1').innerHTML = item.name;
         pizzaWindow.querySelector('.pizzaInfo--desc').innerHTML = item.description;
-        pizzaWindow.querySelector('.pizzaInfo--actualPrice').innerHTML = item.price;
+        pizzaWindow.querySelector('.pizzaInfo--actualPrice').innerHTML = pizzaPrice;
+
+        pizzaWindow.querySelector('.pizzaInfo--qt').innerHTML = pizzaQt;
+
         pizzaWindow.querySelector('.pizzaInfo--qtmenos').addEventListener('click', (e) => {
-          pizzaWindow.querySelector('.pizzaInfo--qt').innerHTML -= 1;
-          if (pizzaWindow.querySelector('.pizzaInfo--qt').innerHTML === '0') {
-            pizzaWindow.style.display = 'none';
-            pizzaWindow.querySelector('.pizzaInfo--qt').innerHTML = 1;
+          e.preventDefault();
+          if (pizzaQt > 1) {
+            pizzaQt -= 1;
+            pizzaPrice -= item.price;
+            pizzaWindow.querySelector('.pizzaInfo--actualPrice').innerHTML = pizzaPrice.toFixed(2);
+            pizzaWindow.querySelector('.pizzaInfo--qt').innerHTML = pizzaQt;
+            console.log(pizzaQt);
+            console.log(pizzaPrice);
           }
         })
+
+
+        pizzaWindow.querySelector('.pizzaInfo--qtmais').addEventListener('click', (e) => {
+          pizzaQt += 1;
+          pizzaPrice = item.price * pizzaQt;
+          pizzaWindow.querySelector('.pizzaInfo--qt').innerHTML = pizzaQt;
+          pizzaWindow.querySelector('.pizzaInfo--actualPrice').innerHTML = pizzaPrice.toFixed(2);
+          console.log(pizzaQt);
+          console.log(pizzaPrice);
+
+        })
+
+        // CLOSE WINDOW
+        pizzaWindow.querySelector('.pizzaInfo--cancelButton').addEventListener('click', (e) => {
+          pizzaWindow.style.opacity = '0';
+          pizzaWindow.style.display = 'none';
+          pizzaQt = 1;
+          console.log(pizzaQt)
+        })
       })
+
 
 
 
